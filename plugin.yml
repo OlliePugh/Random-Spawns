@@ -1,0 +1,25 @@
+name: RandomSpawn
+version: 1.00
+main: com.olliepugh.randomspawn.Main
+author: Ollie Pugh
+
+commands:
+  randomspawn:
+    description: Manage respawn point
+    permission: randomspawns.admin
+    permission-message: You do not have permission to do that!
+    usage: |
+       /randomspawn spawnpoint - To set your respawn point
+       /randomspawn nospawnpoint - To remove your respawn point
+  randomspawn spawnpoint:
+    description: Set respawn point
+    permission: randomspawns.admin
+    permission-message: You do not have permission to do that!
+  randomspawn nospawnpoint:
+    description: Remove respawn point
+    permission: randomspawns.admin
+    permission-message: You do not have permission to do that!
+
+permissions:
+  randomspawns.admin:
+    description: Gives access to bypass the random spawning
