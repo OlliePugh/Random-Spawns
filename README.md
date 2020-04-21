@@ -6,8 +6,8 @@ If the player loses the permission for using their respawn point they will not l
 
 ## Commands
 
-**/randomrespawn spawnpoint:** Sets the players respawn point to their current location, Requires randomspawns.admin.  
-**/randomrespawn nospawnpoint:** Removes the players respawn point, Requires randomspawns.admin.
+**/randomspawn spawnpoint:** Sets the players respawn point to their current location, Requires randomspawns.admin.  
+**/randomspawn nospawnpoint:** Removes the players respawn point, Requires randomspawns.admin.
 
 ## Permissions
 
