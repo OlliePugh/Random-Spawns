@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.olliepugh.randomspawn.commands.RandomSpawn;
+import com.olliepugh.randomspawn.listeners.BedListeners;
 import com.olliepugh.randomspawn.listeners.PlayerSpawnListener;
 
 public class Main extends JavaPlugin{
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin{
 		}
 		
 		userSpawnsFile = new File(getDataFolder(), "userspawns.yml"); // get the file with the user spawns in
+		
 		if (!userSpawnsFile.exists()) { // if the file does not exist
 			try {
 				userSpawnsFile.createNewFile(); // create the userspawns.yml file
@@ -33,16 +35,20 @@ public class Main extends JavaPlugin{
 				e.printStackTrace();
 			}
 		}
-		
+
 		userSpawns = YamlConfiguration.loadConfiguration(userSpawnsFile); // load the configuration 
+
+		loadConfig();
 		
 		new PlayerSpawnListener();
+		new BedListeners();
 		new RandomSpawn();
 	}
 	
 	@Override
 	public void onDisable() {
 		saveUserSpawns(); 
+		saveConfig();
 	}
 	
 	public void saveUserSpawns() { // update the file with the new values
@@ -55,5 +61,10 @@ public class Main extends JavaPlugin{
 	
 	public static Main getPlugin() {
 		return Main.plugin;
+	}
+	
+	public void loadConfig() {
+		getConfig().options().copyDefaults(true);
+		saveConfig();
 	}
 }

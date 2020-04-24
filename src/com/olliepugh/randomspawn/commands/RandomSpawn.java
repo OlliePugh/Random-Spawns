@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.olliepugh.randomspawn.Main;
+import com.olliepugh.randomspawn.fileinteractions.SpawnFile;
 
 public class RandomSpawn implements CommandExecutor {
 	
@@ -26,13 +27,11 @@ public class RandomSpawn implements CommandExecutor {
 			return false;
 		}
 		else if (args[0].equalsIgnoreCase("spawnpoint")) {
-			Main.getPlugin().userSpawns.set(player.getWorld().getUID()+"."+player.getUniqueId(), player.getLocation().toVector()); // set the vector where the user is standing
-			player.sendMessage("Respawn point set");
+			SpawnFile.setCommandSpawn(player);
 			return true;
 		}
 		else if (args[0].equalsIgnoreCase("nospawnpoint")) { 
-			Main.getPlugin().userSpawns.set(player.getWorld().getUID()+"."+player.getUniqueId(), null); // set the respawn point to null
-			player.sendMessage("Respawn point removed");
+			SpawnFile.removeCommandSpawn(player);
 			return true;
 		}
 		return false;
