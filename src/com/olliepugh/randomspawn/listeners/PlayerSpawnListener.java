@@ -53,21 +53,25 @@ public class PlayerSpawnListener implements Listener {
 			
 			Location newRespawnLocation = null;
 			
+			int searchCount = 0;
+			
 			if (world.getEnvironment().equals(World.Environment.NORMAL)) {
 				while (newRespawnLocation == null) { // if the player was going to spawn above water or lava
-					x = (random.nextInt(maxCoord) * (random .nextBoolean() ? -1 : 1));
-					z = (random.nextInt(maxCoord) * (random .nextBoolean() ? -1 : 1));
+					x = (random.nextInt(maxCoord) * (random .nextBoolean() ? -1 : 1)) + (int) world.getWorldBorder().getCenter().getX(); // add the center of the zone to the spawn point
+					z = (random.nextInt(maxCoord) * (random .nextBoolean() ? -1 : 1)) + (int) world.getWorldBorder().getCenter().getZ();
 					
 					y = world.getHighestBlockAt(x, z).getY();
 					
 					newRespawnLocation = new Location(world, x, y, z);
-					Location groundLocation = new Location(world, x, y-1,z);
+					Location groundLocation = new Location(world, x, y-2,z);
 					
 					if (groundLocation.getBlock().isLiquid() && !newRespawnLocation.getBlock().isLiquid()) { // if the players feet will be in liquid
 						newRespawnLocation = null; // reset to null to make the server find another location
 					}
+					if (++searchCount >= 10) {
+						newRespawnLocation = event.getRespawnLocation(); // just use the default spawn point if no location can be found
+					}
 				}
-				
 				event.setRespawnLocation(newRespawnLocation); // set the user new location of spawning
 			}
 		}

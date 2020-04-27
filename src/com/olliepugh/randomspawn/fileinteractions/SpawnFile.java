@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -21,9 +22,11 @@ import com.olliepugh.randomspawn.Main;
 
 public class SpawnFile {
 	
+	public static boolean useFirstBed = Main.getPlugin().getConfig().getBoolean("choose-first-bed-not-most-recent");
+	
 	public static void setCommandSpawn(Player player) { // set the spawn point if the user has used the command
 		Main.getPlugin().userSpawns.set(player.getWorld().getUID()+"."+player.getUniqueId()+".command-spawn", player.getLocation().toVector()); // set the vector where the user is standing
-		player.sendMessage("Respawn point set");
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("respawn-set-message")));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -35,15 +38,20 @@ public class SpawnFile {
 			usersSpawns = (List<Vector>) Main.getPlugin().userSpawns.getList(player.getWorld().getUID()+"."+player.getUniqueId()+".bed-spawns");
 		};
 		
-		usersSpawns.add(block.getLocation().toVector()); // add the new bet position to the list
+		if (useFirstBed) {
+			usersSpawns.add(block.getLocation().toVector()); // add the new bed position to the list
+		}
+		else {
+			usersSpawns.add(0, block.getLocation().toVector()); // add the new bed position to the list
+		}
 		
 		Main.getPlugin().userSpawns.set(player.getWorld().getUID()+"."+player.getUniqueId()+".bed-spawns", usersSpawns); // set the vector where the user is standing
-		player.sendMessage("Respawn point set");
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("respawn-set-message")));
 	}
 	
 	public static void removeCommandSpawn(Player player) { // remove the spawn point set from a command
 		Main.getPlugin().userSpawns.set(player.getWorld().getUID()+"."+player.getUniqueId()+".command-spawn", null); // set the respawn point to null
-		player.sendMessage("Your respawn point has been removed");
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("respawn-removed-message")));
 	}
 	
 	public static void removeBedSpawn(Block block, Bed bed) { // remove a spawn point that relates to a bed
@@ -63,7 +71,7 @@ public class SpawnFile {
 			    	
 			    	Main.getPlugin().userSpawns.set(block.getWorld().getUID()+"."+playerId+".bed-spawns", spawns); // set the spawns in the yml file
 			    	
-			    	Bukkit.getPlayer(ownerId).sendMessage("Your respawn point has been removed");
+			    	Bukkit.getPlayer(ownerId).sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("respawn-removed-message")));
 			    	return;
 			    }
 		    }

@@ -1,1 +1,4 @@
 bed-place-set-spawn: false
+choose-first-bed-not-most-recent: false
+respawn-set-message: '&bRespawn point set'
+respawn-removed-message: '&bRespawn point removed'
