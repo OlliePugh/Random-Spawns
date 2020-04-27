@@ -12,3 +12,7 @@ If the player loses the permission for using their respawn point they will not l
 ## Permissions
 
 **randomspawns.admin:** All commands require this permission
+
+## Extras
+
+When changing the setting for use first bed to spawn you may need to empty the userspawns config file as spawning may choose some odd decisions.
